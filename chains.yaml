@@ -1,0 +1,27 @@
+# Chain definitions: compose AI skills into multi-step pipelines.
+# SAST tools run separately via scan-repo.sh.
+# These chains orchestrate AI skills that analyze the code directly.
+
+chains:
+  full-scan:
+    description: "Complete security analysis: all AI skills in parallel"
+    max_duration: 10800
+    error_mode: continue-with-warnings
+    on_partial: warn
+    steps:
+      - chain: ai-scan
+
+  ai-scan:
+    description: "AI security analysis: semantic scan and adversarial review in parallel"
+    parallel: true
+    max_concurrency: 2
+    max_duration: 7200
+    error_mode: continue-with-warnings
+    on_partial: warn
+    steps:
+      - skill: semantic-scan
+        model_tier: heavy
+        isolation: worktree
+      - skill: adversarial-reviewing
+        model_tier: heavy
+        isolation: worktree

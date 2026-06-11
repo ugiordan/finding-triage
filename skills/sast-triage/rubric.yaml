@@ -1,0 +1,18 @@
+criteria:
+  evidence_citations:
+    description: "Steps cite specific file:line references"
+    max: 2
+  methodology_compliance:
+    description: "All required steps executed with data"
+    max: 2
+  exploitability_depth:
+    description: "Exploitability assessment substantiated by trace data"
+    max: 2
+  verdict_consistency:
+    description: "Verdict logically follows from evidence"
+    max: 2
+
+thresholds:
+  accept: 6
+  borderline: 4
+  reject: 0
