@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["classification", "confidence", "reasoning"],
+  "properties": {
+    "classification": {
+      "type": "string",
+      "enum": ["confirmed", "confirmed_dead_code", "likely_fp", "uncertain"]
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "reasoning": { "type": "string" },
+    "evidence": { "type": "object" }
+  },
+  "additionalProperties": false
+}

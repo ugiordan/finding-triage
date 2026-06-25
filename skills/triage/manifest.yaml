@@ -1,0 +1,52 @@
+identity:
+  name: triage
+  publisher: ugiordan
+  repo: finding-triage
+  description: "Unified security finding triage with source-specific profiles"
+  trust_level: personal
+
+ports:
+  inputs:
+    - name: finding
+      type: finding
+    - name: source_code
+      type: source_code
+  contexts:
+    - name: arch_data
+      type: architecture
+      optional: true
+    - name: custom
+      type: any
+      optional: true
+  outputs:
+    - name: result
+      type: triage_result
+
+execution:
+  tools: [Read, Grep, Glob]
+  sandbox: required
+  timeout: 180
+  max_cost: 2.0
+  adapters:
+    - opencode
+    - claude-agent
+
+profiles:
+  - name: sast
+    sources: [semgrep, kube-linter, actionlint, zizmor, rbac-analyzer, adversarial-reviewing, semantic-scan, general-review, gosec, cppcheck, flawfinder, konflux]
+    rubric: profiles/sast.md
+  - name: cve
+    sources: [trivy, grype, osv-scanner, pip-audit, govulncheck, github-advisory]
+    rubric: profiles/cve.md
+  - name: secrets
+    sources: [trufflehog, gitleaks]
+    rubric: profiles/secrets.md
+  - name: container
+    sources: [trivy-image, grype-image]
+    rubric: profiles/container.md
+
+dependencies:
+  - skill: ugiordan/architecture-analyzer/arch-analyzer@v1.0.0
+    output: result
+    connects_to: arch_data
+    required: false
