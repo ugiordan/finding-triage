@@ -105,13 +105,13 @@ Add these fields to the `evidence` object:
 
 ## Example Classifications
 
-### Confirmed Secret: Real AWS Key
+### Confirmed: Real AWS Key
 
 ```json
 {
   "classification": "confirmed",
   "confidence": 0.95,
-  "reasoning": "High-entropy AWS access key (AKIA...) found in config/prod.yaml:23. File is in production config directory, not a test file. No test/example comments. File is in .gitignore, suggesting it should not be committed. Commit was recent (2024-03-01).",
+  "reasoning": "High-entropy AWS access key (AKIA...) found in config/prod.yaml:23. File is in production config directory, not a test file. No test/example comments. File is in .gitignore, suggesting it should not be committed. Commit was recent (2024-03-01). This is a confirmed real secret.",
   "evidence": {
     "secret_type": "AWS access key",
     "file_context": "production",
@@ -126,13 +126,13 @@ Add these fields to the `evidence` object:
 }
 ```
 
-### Test Fixture: Mock Token
+### Likely FP: Test Fixture, Mock Token
 
 ```json
 {
-  "classification": "test_fixture",
+  "classification": "likely_fp",
   "confidence": 0.9,
-  "reasoning": "Token found in test/fixtures/auth_test.go:12. File path contains 'test' and 'fixtures'. Variable name is 'mockBearerToken'. Comment above says '// test fixture for auth middleware'. Low entropy value 'test-token-123'.",
+  "reasoning": "Token found in test/fixtures/auth_test.go:12. File path contains 'test' and 'fixtures'. Variable name is 'mockBearerToken'. Comment above says '// test fixture for auth middleware'. Low entropy value 'test-token-123'. This is a test fixture, not a real credential.",
   "evidence": {
     "secret_type": "API key",
     "file_context": "test",
@@ -147,13 +147,13 @@ Add these fields to the `evidence` object:
 }
 ```
 
-### Placeholder: Generic Value
+### Likely FP: Placeholder, Generic Value
 
 ```json
 {
-  "classification": "placeholder",
+  "classification": "likely_fp",
   "confidence": 0.85,
-  "reasoning": "Password value is 'changeme' in config/default.yaml:5. This is a well-known placeholder. Low entropy. Comment above says '// Replace with actual password before deployment'. File is example config, not production.",
+  "reasoning": "Password value is 'changeme' in config/default.yaml:5. This is a well-known placeholder. Low entropy. Comment above says '// Replace with actual password before deployment'. File is example config, not production. This is a placeholder value, not a real secret.",
   "evidence": {
     "secret_type": "password",
     "file_context": "example",
@@ -168,13 +168,13 @@ Add these fields to the `evidence` object:
 }
 ```
 
-### Revoked: Token with Rotation Evidence
+### Likely FP: Revoked Token with Rotation Evidence
 
 ```json
 {
-  "classification": "revoked",
+  "classification": "likely_fp",
   "confidence": 0.8,
-  "reasoning": "GitHub token found at scripts/deploy.sh:34. Commit message for SHA abc123 says 'rotate GitHub token after leak'. The token is commented out with '# revoked 2024-02-01' above it.",
+  "reasoning": "GitHub token found at scripts/deploy.sh:34. Commit message for SHA abc123 says 'rotate GitHub token after leak'. The token is commented out with '# revoked 2024-02-01' above it. Token has been revoked, so no active risk, but should be scrubbed from history.",
   "evidence": {
     "secret_type": "GitHub token",
     "file_context": "production",

@@ -128,13 +128,13 @@ Add these fields to the `evidence` object:
 }
 ```
 
-### Base Image Only: Wait for Upstream
+### Likely FP: Base Image Only, Wait for Upstream
 
 ```json
 {
-  "classification": "base_image_only",
+  "classification": "likely_fp",
   "confidence": 0.85,
-  "reasoning": "CVE-2024-5678 in openssl is part of base image UBI 8.6. Not explicitly installed in Dockerfile. Application code does not import openssl (Go TLS uses stdlib, not openssl). Wait for Red Hat to release updated UBI 8.7.",
+  "reasoning": "CVE-2024-5678 in openssl is part of base image UBI 8.6. Not explicitly installed in Dockerfile. Application code does not import openssl (Go TLS uses stdlib, not openssl). Package is in base layer only, outside this repo's control. Wait for Red Hat to release updated UBI 8.7.",
   "evidence": {
     "package_layer": "base",
     "base_image": "registry.access.redhat.com/ubi8/ubi:8.6",
@@ -150,13 +150,13 @@ Add these fields to the `evidence` object:
 }
 ```
 
-### Build Time Only: Not in Runtime Layer
+### Likely FP: Build Time Only, Not in Runtime Layer
 
 ```json
 {
-  "classification": "build_time_only",
+  "classification": "likely_fp",
   "confidence": 0.9,
-  "reasoning": "CVE-2024-9999 in gcc is only used during build (Dockerfile:15, multi-stage build). The final runtime stage (FROM scratch) does not include gcc. Package is not in the final image.",
+  "reasoning": "CVE-2024-9999 in gcc is only used during build (Dockerfile:15, multi-stage build). The final runtime stage (FROM scratch) does not include gcc. Package is build-time only and not present in the final runtime image.",
   "evidence": {
     "package_layer": "application",
     "installed_by": "Dockerfile:RUN_line_15",
