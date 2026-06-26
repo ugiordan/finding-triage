@@ -17,7 +17,7 @@ Check for these signals:
 - **Comments near the secret**: "test only", "example", "placeholder", "not real", "for demo purposes"
 - **Value patterns**: `YOUR_TOKEN_HERE`, `changeme`, `password123`, `secretkey`, `replace-with-actual-key`
 
-If multiple indicators are present, classify as `test_fixture` with high confidence.
+If multiple indicators are present, classify as `likely_fp` with high confidence and document the test fixture indicators in evidence.
 
 #### Real Credential Indicators
 
@@ -73,7 +73,7 @@ If the credential appears real, check for evidence of rotation or revocation:
 - **Code comments**: "revoked", "expired", "replaced"
 - **Secret commented out**: The secret is in a comment or disabled code
 
-If rotation/revocation is evident, classify as `revoked`.
+If rotation/revocation is evident, classify as `likely_fp` and document the revocation evidence.
 
 ### Exposure Scope
 

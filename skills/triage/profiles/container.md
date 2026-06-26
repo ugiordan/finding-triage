@@ -55,7 +55,7 @@ Indicators:
 - Package is in `BuildRequires` or build dependencies (e.g., `gcc`, `make`, `npm`)
 - Package is removed in the same Dockerfile layer (`RUN yum install gcc && ... && yum remove gcc`)
 
-If the package is build-time only, classify as `build_time_only`.
+If the package is build-time only, classify as `likely_fp` and document the build-time-only evidence.
 
 #### Runtime Packages
 

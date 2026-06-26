@@ -49,6 +49,10 @@ Return format for fast-path exits:
 
 **If none of the fast-path criteria apply, proceed to the full 8-step investigation below.**
 
+## Tool Availability Note
+
+You have access to Read, Grep, and Glob tools. If a profile rubric references shell commands (e.g., govulncheck, git log), use the equivalent approach with your available tools: grep for function calls instead of running govulncheck, read git metadata files instead of running git log.
+
 ## Investigation Methodology (8 Steps)
 
 ### Step 1: Read the Flagged Code

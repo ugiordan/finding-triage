@@ -118,15 +118,15 @@ Add these fields to the `evidence` object:
     "call_sites": ["pkg/server/handler.go:67"],
     "dependency_type": "direct",
     "pinned": true,
-    "tool_scan_result": "govulncheck: called"
+    "tool_scan_result": "govulncheck: called",
+    "upgrade_path": {
+      "current": "1.2.3",
+      "fixed": "1.2.4",
+      "breaking_changes": false
+    }
   },
   "risk_statement": "CVE-2024-1234: Denial of service via malformed request to /api/parse",
-  "fix_recommendation": "Upgrade github.com/example/lib from 1.2.3 to 1.2.4 in go.mod",
-  "upgrade_path": {
-    "current": "1.2.3",
-    "fixed": "1.2.4",
-    "breaking_changes": false
-  }
+  "fix_recommendation": "Upgrade github.com/example/lib from 1.2.3 to 1.2.4 in go.mod"
 }
 ```
 
@@ -189,13 +189,13 @@ Add these fields to the `evidence` object:
 }
 ```
 
-### Uncertain: VEX Contradicts Analysis
+### Confirmed Dead Code: VEX Contradicts Analysis
 
 ```json
 {
-  "classification": "uncertain",
-  "confidence": 0.5,
-  "reasoning": "VEX data marks this as affected, but govulncheck reports the vulnerable function is not called. VEX may track product-level status (shipped binaries) while source analysis shows no runtime calls. Escalate for human review to reconcile VEX and source-level findings.",
+  "classification": "confirmed_dead_code",
+  "confidence": 0.9,
+  "reasoning": "VEX data marks this as affected, but govulncheck reports the vulnerable function is not called. VEX tracks product-level status (shipped binaries), but source-level analysis confirms no runtime calls. Classification follows source analysis per the rubric.",
   "evidence": {
     "package_location": "go.mod:45",
     "installed_version": "1.2.3",
@@ -204,7 +204,7 @@ Add these fields to the `evidence` object:
     "vex_alignment": "contradicts",
     "tool_scan_result": "govulncheck: not called"
   },
-  "risk_statement": "Uncertain: VEX vs source analysis mismatch",
-  "fix_recommendation": "Review VEX data source and reconcile with govulncheck result"
+  "risk_statement": "No runtime risk, but supply chain risk remains until upgrade",
+  "fix_recommendation": "Upgrade to eliminate supply chain risk. Note VEX disagreement for product-level tracking."
 }
 ```
